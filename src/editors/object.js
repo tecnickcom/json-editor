@@ -435,12 +435,12 @@ JSONEditor.defaults.editors.object = JSONEditor.AbstractEditor.extend({
       if(this.schema.options && typeof this.schema.options.disable_collapse !== "undefined") {
         if(this.schema.options.disable_collapse){
           this.toggle_button.style.display = 'none';
-          this.title.querySelector(".headerText").removeEventListener('click', onCollapse)
+          this.title.querySelector(".headerText").removeEventListener('click', onCollapse);
         } 
       }
       else if(this.jsoneditor.options.disable_collapse) {
         this.toggle_button.style.display = 'none';
-        this.title.querySelector(".headerText").removeEventListener('click', onCollapse)
+        this.title.querySelector(".headerText").removeEventListener('click', onCollapse);
       }
       // Edit JSON Button
       this.editjson_button = this.getButton('JSON','edit','Edit JSON');
