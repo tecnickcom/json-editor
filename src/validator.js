@@ -203,14 +203,16 @@ JSONEditor.Validator = Class.extend({
     /*
      * Type Specific Validation
      */
-    var stringWhiteLabel, jumpValidation;
-    if (typeof value === "number" || typeof value === "string") {
-        stringWhiteLabel = this.jsoneditor.options.stringWhiteLabel;
-        jumpValidation = value.startsWith && value.startsWith(stringWhiteLabel);
+    var skipValidation = false;
+    if (this.jsoneditor.options && this.jsoneditor.options.skipValidationTest){
+      if (typeof value === "number" || typeof value === "string") {
+          var skipValidationTest = this.jsoneditor.options.skipValidationTest;
+          skipValidation =  new RegExp(skipValidationTest).test(value);
+      }
     }
 
     // Number Specific Validation
-    if(typeof value === "number") {
+    if(typeof value === "number" && !skipValidation) {
       // `multipleOf` and `divisibleBy`
       if(schema.multipleOf || schema.divisibleBy) {
         var divisor = schema.multipleOf || schema.divisibleBy;
@@ -294,10 +296,10 @@ JSONEditor.Validator = Class.extend({
       }
     }
     // String specific validation
-    else if(typeof value === "string") {
+    else if(typeof value === "string" && !skipValidation) {
 
       // `maxLength`
-      if(schema.maxLength && !jumpValidation) {
+      if(schema.maxLength) {
         if((value+"").length > schema.maxLength) {
           errors.push({
             path: path,
@@ -308,7 +310,7 @@ JSONEditor.Validator = Class.extend({
       }
 
       // `minLength`
-      if(schema.minLength && !jumpValidation) {
+      if(schema.minLength) {
         if((value+"").length < schema.minLength) {
           errors.push({
             path: path,
@@ -319,7 +321,7 @@ JSONEditor.Validator = Class.extend({
       }
 
       // `pattern`
-      if(schema.pattern && !jumpValidation) {
+      if(schema.pattern) {
         if(!(new RegExp(schema.pattern)).test(value)) {
           errors.push({
             path: path,
@@ -330,7 +332,7 @@ JSONEditor.Validator = Class.extend({
       }
     }
 
-    if(schema.format === "url" && !jumpValidation) {
+    if(schema.format === "url" && !skipValidation) {
         var reg = /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
         if(! reg.test(value)  ) {
           errors.push({
