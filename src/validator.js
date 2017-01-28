@@ -15,7 +15,7 @@ JSONEditor.Validator = Class.extend({
     var first;
     
     if(path_parts.length <2){
-      first = "root"
+      first = "root";
 
     }else{
       first = path_parts.shift();
@@ -32,7 +32,7 @@ JSONEditor.Validator = Class.extend({
     if(customValidation.checks.anyDefined){
       var fields = customValidation.checks.anyDefined;
       for(var i in fields){
-        var resolvedPath = this._resolvePath(fields[i]);
+        var resolvedPath =  this._resolvePath(path, fields[i]);
         var fEditor = this.jsoneditor.getEditor(resolvedPath);
         if(fEditor && fEditor.getValue()){
           check = true;
