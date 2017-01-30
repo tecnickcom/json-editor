@@ -36,6 +36,7 @@ JSONEditor.Validator = Class.extend({
         var fEditor = this.jsoneditor.getEditor(resolvedPath);
         if(fEditor && fEditor.getValue()){
           check = true;
+          break;
         }
       }
     }
