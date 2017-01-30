@@ -25,7 +25,7 @@ JSONEditor.Validator = Class.extend({
 
     return root.getAttribute('data-schemapath') + '.' + path_parts.join('.');
   },
-  _customValidation: function(schema,value,path, arrayIndex){
+  _customValidation: function(schema,value,path){
     var customValidation = schema.options.customValidation;
     var check = false;
     //validation anyDefined 
