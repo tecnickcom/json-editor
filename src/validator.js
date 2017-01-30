@@ -44,6 +44,7 @@ JSONEditor.Validator = Class.extend({
     //if checked conditions apply updates chema
     if(check){
       $extend(schema, customValidation.updateField);
+      this.jsoneditor.getEditor(path).is_dirty = true;
     }
   },
   _validateSchema: function(schema,value,path) {
