@@ -100,6 +100,7 @@ JSONEditor.defaults.editors.upload = JSONEditor.AbstractEditor.extend({
 
     this.delete_button.addEventListener('click',function(e) {
       self.setValue("");
+      self.onChange(true);
     });
     container.appendChild(this.delete_button);
   },
