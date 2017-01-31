@@ -8,6 +8,45 @@ JSONEditor.Validator = Class.extend({
   validate: function(value) {
     return this._validateSchema(this.schema, value);
   },
+  _resolvePath : function(actualPath, path){
+    var jsoneditor = this.jsoneditor;
+    var path_parts = path.split('.');
+    var actualEditor =  this.jsoneditor.getEditor(actualPath);
+    var first;
+    
+    if(path_parts.length <2){
+      first = "root";
+
+    }else{
+      first = path_parts.shift();
+    }    
+    var root = jsoneditor.theme.closest(actualEditor.container,'[data-schemaid="'+first+'"]');
+    if(!root) throw "Could not find ancestor node with id "+first;
+
+    return root.getAttribute('data-schemapath') + '.' + path_parts.join('.');
+  },
+  _customValidation: function(schema,value,path){
+    var customValidation = schema.options.customValidation;
+    var check = false;
+    //validation anyDefined 
+    if(customValidation.checks.anyDefined){
+      var fields = customValidation.checks.anyDefined;
+      for(var i in fields){
+        var resolvedPath =  this._resolvePath(path, fields[i]);
+        var fEditor = this.jsoneditor.getEditor(resolvedPath);
+        if(fEditor && fEditor.getValue()){
+          check = true;
+          break;
+        }
+      }
+    }
+
+    //if checked conditions apply updates chema
+    if(check){
+      $extend(schema, customValidation.updateField);
+      this.jsoneditor.getEditor(path).is_dirty = true;
+    }
+  },
   _validateSchema: function(schema,value,path) {
     var self = this;
     var errors = [];
@@ -22,7 +61,9 @@ JSONEditor.Validator = Class.extend({
     /*
      * Type Agnostic Validation
      */
-
+    if(schema.options && schema.options.customValidation){
+      this._customValidation(schema,value,path);
+    }
     // Version 3 `required`
     if(schema.required && schema.required === true) {
       if(typeof value === "undefined") {
