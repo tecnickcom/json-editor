@@ -22,6 +22,12 @@ JSONEditor.defaults.editors.upload = JSONEditor.AbstractEditor.extend({
     boxUploader.className = "box-upload";
     inputContainer.appendChild(boxUploader);
 
+    this.input.addEventListener('change',function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var val = this.value;
+      self.setValue(val);
+    });
     // Don't show uploader if this is readonly
     if(!this.schema.readOnly && !this.schema.readonly) {
 
@@ -100,7 +106,6 @@ JSONEditor.defaults.editors.upload = JSONEditor.AbstractEditor.extend({
 
     this.delete_button.addEventListener('click',function(e) {
       self.setValue("");
-      self.onChange(true);
     });
     container.appendChild(this.delete_button);
   },
@@ -171,7 +176,7 @@ JSONEditor.defaults.editors.upload = JSONEditor.AbstractEditor.extend({
       this.value = val;
       this.input.value = this.value;
       this.refreshImgPreview(this.value);
-      this.onChange();
+      this.onChange(true);
     }
   },
 
@@ -182,5 +187,23 @@ JSONEditor.defaults.editors.upload = JSONEditor.AbstractEditor.extend({
     if(this.uploader && this.uploader.parentNode) this.uploader.parentNode.removeChild(this.uploader);
 
     this._super();
+  },
+
+  showValidationErrors: function(errors) {
+    var self = this;
+
+    var messages = [];
+    $each(errors,function(i,error) {
+      if(error.path === self.path) {
+        messages.push(error.message);
+      }
+    });
+
+    if(messages.length) {
+      this.theme.addInputError(this.input, messages.join('. ')+'.');
+    }
+    else {
+      this.theme.removeInputError(this.input);
+    }
   }
 });
