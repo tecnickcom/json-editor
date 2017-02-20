@@ -156,7 +156,7 @@ JSONEditor.defaults.editors.object = JSONEditor.AbstractEditor.extend({
       $each(this.property_order, function(i,key) {
         var editor = self.editors[key];
         if(editor.property_removed) return;
-        var row = self.theme.getGridRow();
+        var row = self.theme.getGridRow(editors.schema);
         container.appendChild(row);
 
         if(editor.options.hidden) editor.container.style.display = 'none';
