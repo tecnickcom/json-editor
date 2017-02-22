@@ -58,7 +58,7 @@ JSONEditor.AbstractEditor = Class.extend({
     if(this.schema.id) this.container.setAttribute('data-schemaid',this.schema.id);
     if(this.schema.type && typeof this.schema.type === "string") this.container.setAttribute('data-schematype',this.schema.type);
     this.container.setAttribute('data-schemapath',this.path);
-    this.container.className += 'container-form-control';
+    $addClass(this.container, ' container-form-control' )
   },
 
   preBuild: function() {
