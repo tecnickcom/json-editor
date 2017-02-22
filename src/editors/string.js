@@ -164,17 +164,17 @@ JSONEditor.defaults.editors.string = JSONEditor.AbstractEditor.extend({
       // HTML5 Input type
       else if(this.format === 'url' ){
         this.input_type = 'text';
-        this.input = this.theme.getFormInputField(this.input_type);
+        this.input = this.theme.getFormInputField(this.input_type, this.getTitle());
       }
       else {
         this.input_type = this.format;
-        this.input = this.theme.getFormInputField(this.input_type);
+        this.input = this.theme.getFormInputField(this.input_type, this.getTitle());
       }
     }
     // Normal text input
     else {
       this.input_type = 'text';
-      this.input = this.theme.getFormInputField(this.input_type);
+      this.input = this.theme.getFormInputField(this.input_type, this.getTitle());
     }
 
     // minLength, maxLength, and pattern
