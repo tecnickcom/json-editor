@@ -176,7 +176,7 @@ JSONEditor.defaults.editors.string = JSONEditor.AbstractEditor.extend({
       this.input_type = 'text';
       this.input = this.theme.getFormInputField(this.input_type, this.getTitle());
     }
-
+    
     // minLength, maxLength, and pattern
     if(typeof this.schema.maxLength !== "undefined") this.input.setAttribute('maxlength',this.schema.maxLength);
     if(typeof this.schema.pattern !== "undefined") this.input.setAttribute('pattern',this.schema.pattern);
@@ -261,6 +261,7 @@ JSONEditor.defaults.editors.string = JSONEditor.AbstractEditor.extend({
     }
 
     if (this.placeholder) {
+        var placeHolderValue = (this.placeholder) ? this.placeholder : this.getTitle();
         this.input.setAttribute("placeholder", this.placeholder);
     }
     if(this.format) this.input.setAttribute('data-schemaformat',this.format);
@@ -447,7 +448,8 @@ JSONEditor.defaults.editors.string = JSONEditor.AbstractEditor.extend({
     this._super();
   },
   setPlaceholder: function(value){
-    this.input.setAttribute("placeholder", value);
+    var placeholder = (value) ? value: this.getTitle();
+    this.input.setAttribute("placeholder", placeholder);
   },
 
   showValidationErrors: function(errors) {
