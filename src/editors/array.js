@@ -266,6 +266,13 @@ JSONEditor.defaults.editors.array = JSONEditor.AbstractEditor.extend({
   },
   refreshTabs: function(refresh_headers) {
     var self = this;
+    
+    if(this.rows.length){
+      $removeClass(this.container, "empty-arry");
+    }else{
+      $addClass(this.container, "empty-arry");
+    }
+
     $each(this.rows, function(i,row) {
       if(!row.tab) return;
 
