@@ -203,7 +203,7 @@ JSONEditor.defaults.editors.object = JSONEditor.AbstractEditor.extend({
     this.format = this.options.layout || this.options.object_layout || this.schema.format || this.jsoneditor.options.object_layout || 'normal';
 
     this.schema.properties = this.schema.properties || {};
-
+    this.indentLevel = this.options.indentLevel || 0;
     this.minwidth = 0;
     this.maxwidth = 0;
 
@@ -380,7 +380,7 @@ JSONEditor.defaults.editors.object = JSONEditor.AbstractEditor.extend({
       this.container.appendChild(this.error_holder);
 
       // Container for child editor area
-      this.editor_holder = this.theme.getIndentedPanel();
+      this.editor_holder = this.theme.getIndentedPanel(this.indentLevel);
       this.container.appendChild(this.editor_holder);
 
       // Container for rows of child editors
