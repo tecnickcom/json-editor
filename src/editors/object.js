@@ -153,10 +153,26 @@ JSONEditor.defaults.editors.object = JSONEditor.AbstractEditor.extend({
     // Normal layout
     else {
       container = document.createElement('div');
+      var numberHalfRow = 0;
       $each(this.property_order, function(i,key) {
         var editor = self.editors[key];
         if(editor.property_removed) return;
+        console.log(editor.schema);
+        if(editor.schema.description === "xxxxx"){
+          //debugger
+        }
         var row = self.theme.getGridRow(editor.schema);
+        var gridClass = self.getGridClass(editor.schema );
+        var nextGridClass = self.getNextClass(self.property_order, i );
+        if(gridClass === "row-half"){
+          numberHalfRow ++;
+        }else{
+          numberHalfRow = 0;
+        }
+        if(nextGridClass === "row" && gridClass === "row-half" && self.isOdd(numberHalfRow) ){
+            gridClass = "row";
+        }
+        $addClass(row, gridClass);
         container.appendChild(row);
 
         if(editor.options.hidden) editor.container.style.display = 'none';
@@ -166,6 +182,48 @@ JSONEditor.defaults.editors.object = JSONEditor.AbstractEditor.extend({
     }
     this.row_container.innerHTML = '';
     this.row_container.appendChild(container);
+  },
+  isOdd: function(num) { return num % 2;},
+  hasNextProp: function(property_order, i){
+    return property_order[i+1] !== undefined 
+  },
+  getNextClass: function(property_order, i){
+    if(this.hasNextProp(property_order, i)){
+      nextEditor = this.editors[property_order[i+1]];
+      return this.getGridClass(nextEditor.schema);
+    }
+    return "row";
+     
+  },
+  getGridClass: function(schema){
+    if(this.isInputHidden(schema)){
+      return 'row-hidden';
+    }else if(this.isTextAreaField(schema) || this.isUploadField(schema) || this.isEnumField(schema) || this.isUrlField(schema)){
+      return 'row';
+    }else if(this.isInputField(schema)){
+      return 'row-half';
+    }else{
+      return 'row';
+    }
+  },
+  isInputField:function (schema){
+    var type = schema.type;
+    return (type === "string" || type === "integer" );
+  },
+  isInputHidden: function(schema){
+    return (schema.options && schema.options.hidden);
+  },
+  isTextAreaField :function(schema){
+    return (schema.format && schema.format === "textarea");
+  },
+  isUploadField :function(schema){
+    return (schema.options && schema.options.upload);
+  },
+  isEnumField :function(schema){
+    return (schema.type === "string" && schema.enum);
+  },
+  isUrlField :function(schema){
+    return (schema.format  && schema.format === "url");
   },
   getPropertySchema: function(key) {
     // Schema declared directly in properties
