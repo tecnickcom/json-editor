@@ -315,6 +315,20 @@ JSONEditor.AbstractEditor = Class.extend({
       return "";
     }
   },
+
+  compileBaseTemplate: function(headerTemplate){
+    var header_template = this.jsoneditor.compileTemplate(headerTemplate, this.template_engine);
+    vars = $extend({
+      title: this.getTitle(),
+      key: this.key,
+      i: this.key,
+      i0: (this.key*1),
+      i1: (this.key*1+1),
+      baseTitle: this.getBaseTitle()
+    });
+    return header_template(vars);
+  },
+
   onWatchedFieldChange: function() {
     var vars;
     if(this.header_template) {

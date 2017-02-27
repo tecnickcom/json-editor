@@ -174,7 +174,12 @@ JSONEditor.defaults.editors.string = JSONEditor.AbstractEditor.extend({
     // Normal text input
     else {
       this.input_type = 'text';
-      this.input = this.theme.getFormInputField(this.input_type, this.getTitle());
+      var _title =  this.getTitle();
+      if(this.getTitle() === "{{baseTitle}} xxxxxxxx {{ i1 }}"){debugger}
+      if(this.schema.headerTemplate){
+        _title = this.compileBaseTemplate(this.schema.headerTemplate);
+      }
+      this.input = this.theme.getFormInputField(this.input_type, _title);
     }
     
     // minLength, maxLength, and pattern
