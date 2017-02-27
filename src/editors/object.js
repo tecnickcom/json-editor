@@ -157,10 +157,6 @@ JSONEditor.defaults.editors.object = JSONEditor.AbstractEditor.extend({
       $each(this.property_order, function(i,key) {
         var editor = self.editors[key];
         if(editor.property_removed) return;
-        console.log(editor.schema);
-        if(editor.schema.description === "xxxxx"){
-          //debugger
-        }
         var row = self.theme.getGridRow(editor.schema);
         var gridClass = self.getGridClass(editor.schema );
         var nextGridClass = self.getNextClass(self.property_order, i );
