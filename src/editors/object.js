@@ -197,7 +197,7 @@ JSONEditor.defaults.editors.object = JSONEditor.AbstractEditor.extend({
     }else if(this.isTextAreaField(schema) || this.isUploadField(schema) || this.isEnumField(schema) || this.isUrlField(schema)){
       return 'row';
     }else if(this.isInputField(schema)){
-      return 'row-half';
+      return 'row';
     }else{
       return 'row';
     }
