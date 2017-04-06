@@ -71,6 +71,7 @@ JSONEditor.defaults.editors.array = JSONEditor.AbstractEditor.extend({
     this.hide_delete_last_row_buttons = this.hide_delete_buttons || this.options.disable_array_delete_last_row || this.jsoneditor.options.disable_array_delete_last_row;
     this.hide_move_buttons = this.options.disable_array_reorder || this.jsoneditor.options.disable_array_reorder;
     this.hide_add_button = this.options.disable_array_add || this.jsoneditor.options.disable_array_add;
+    this.indentLevel = this.options.indentLevel || 0;
   },
   build: function() {
     var self = this;
@@ -99,7 +100,7 @@ JSONEditor.defaults.editors.array = JSONEditor.AbstractEditor.extend({
         this.active_tab = null;
       }
       else {
-        this.panel = this.theme.getIndentedPanel(true);
+        this.panel = this.theme.getIndentedPanel(this.indentLevel);
         this.container.appendChild(this.panel); 
         this.row_holder = document.createElement('div');
         this.panel.appendChild(this.row_holder);
@@ -108,7 +109,7 @@ JSONEditor.defaults.editors.array = JSONEditor.AbstractEditor.extend({
       }
     }
     else {
-        this.panel = this.theme.getIndentedPanel(true);
+        this.panel = this.theme.getIndentedPanel(this.indentLevel);
         this.container.appendChild(this.panel);
         this.controls = this.theme.getButtonHolder();
         this.panel.appendChild(this.controls);
@@ -266,6 +267,13 @@ JSONEditor.defaults.editors.array = JSONEditor.AbstractEditor.extend({
   },
   refreshTabs: function(refresh_headers) {
     var self = this;
+    
+    if(this.rows.length){
+      $removeClass(this.container, "empty-arry");
+    }else{
+      $addClass(this.container, "empty-arry");
+    }
+
     $each(this.rows, function(i,row) {
       if(!row.tab) return;
 

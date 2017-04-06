@@ -58,6 +58,10 @@ JSONEditor.AbstractEditor = Class.extend({
     if(this.schema.id) this.container.setAttribute('data-schemaid',this.schema.id);
     if(this.schema.type && typeof this.schema.type === "string") this.container.setAttribute('data-schematype',this.schema.type);
     this.container.setAttribute('data-schemapath',this.path);
+    $addClass(this.container, 'container-form-control');
+    if(this.options && this.options.baseElement){
+      $addClass(this.container, 'base-element');
+    }
   },
 
   preBuild: function() {
@@ -302,6 +306,29 @@ JSONEditor.AbstractEditor = Class.extend({
     else if(title_only) return this.schema.title;
     else return this.getTitle();
   },
+  getBaseTitle: function(){
+    if(this.options && this.options.baseElement){
+      return this.getTitle();
+    }else if(this.parent){
+      return this.parent.getBaseTitle();
+    }else{
+      return "";
+    }
+  },
+
+  compileBaseTemplate: function(headerTemplate){
+    var header_template = this.jsoneditor.compileTemplate(headerTemplate, this.template_engine);
+    vars = $extend({
+      title: this.getTitle(),
+      key: this.key,
+      i: this.key,
+      i0: (this.key*1),
+      i1: (this.key*1+1),
+      baseTitle: this.getBaseTitle()
+    });
+    return header_template(vars);
+  },
+
   onWatchedFieldChange: function() {
     var vars;
     if(this.header_template) {
@@ -310,7 +337,8 @@ JSONEditor.AbstractEditor = Class.extend({
         i: this.key,
         i0: (this.key*1),
         i1: (this.key*1+1),
-        title: this.getTitle()
+        title: this.getTitle(),
+        baseTitle: this.getBaseTitle()
       });
       var header_text = this.header_template(vars);
 

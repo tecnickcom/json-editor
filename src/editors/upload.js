@@ -14,12 +14,11 @@ JSONEditor.defaults.editors.upload = JSONEditor.AbstractEditor.extend({
 
     // Input that holds the base64 string;
     var inputType = this.options.showInput ? 'text' : 'hidden';
-    this.input = this.theme.getFormInputField(inputType);
+    this.input = this.theme.getFormInputField(inputType, this.getTitle());
     inputContainer.appendChild(this.input);
 
     // File uploader
     var boxUploader = this.getButton('','upload','');
-    boxUploader.className = "box-upload";
     inputContainer.appendChild(boxUploader);
 
     this.input.addEventListener('change',function(e) {
