@@ -508,7 +508,13 @@ JSONEditor.Validator = Class.extend({
             errors.push({
               path: path,
               property: 'required',
-              message: this.translate('error_required', [schema.properties[schema.required[i]].title || schema.required[i]])
+              message: this.translate(
+                'error_required', 
+                [
+                  (schema.properties[schema.required[i]] ? schema.properties[schema.required[i]].title : null) ||
+                    schema.required[i]
+                ]
+              )
             });
           }
         }

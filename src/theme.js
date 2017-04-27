@@ -111,6 +111,7 @@ JSONEditor.AbstractTheme = Class.extend({
   },
   getSelectInput: function(options) {
     var select = document.createElement('select');
+    select.setAttribute('data-sonata-select2', 'false');
     if(options) this.setSelectOptions(select, options);
     return select;
   },

@@ -181,11 +181,11 @@ JSONEditor.defaults.editors.object = JSONEditor.AbstractEditor.extend({
   },
   isOdd: function(num) { return num % 2;},
   hasNextProp: function(property_order, i){
-    return property_order[i+1] !== undefined 
+    return property_order[i+1] !== undefined;
   },
   getNextClass: function(property_order, i){
     if(this.hasNextProp(property_order, i)){
-      nextEditor = this.editors[property_order[i+1]];
+      var nextEditor = this.editors[property_order[i+1]];
       return this.getGridClass(nextEditor.schema);
     }
     return "row";
@@ -391,7 +391,7 @@ JSONEditor.defaults.editors.object = JSONEditor.AbstractEditor.extend({
       this.addproperty_list.style.padding = '5px 0';
       this.addproperty_list.style.overflowY = 'auto';
       this.addproperty_list.style.overflowX = 'hidden';
-      this.addproperty_list.style.paddingLeft = '5px';
+      this.addproperty_list.style.paddingLeft = '30px';
       this.addproperty_list.setAttribute('class', 'property-selector');
       this.addproperty_add = this.getButton('add','add','add');
       this.addproperty_input = this.theme.getFormInputField('text');
@@ -486,15 +486,18 @@ JSONEditor.defaults.editors.object = JSONEditor.AbstractEditor.extend({
       }
 
       // Collapse button disabled
+      var ht;
       if(this.schema.options && typeof this.schema.options.disable_collapse !== "undefined") {
         if(this.schema.options.disable_collapse){
-          this.toggle_button.style.display = 'none';
-          this.title.querySelector(".headerText").removeEventListener('click', onCollapse);
+          this.toggle_button.style.display = 'none';        
+          ht = this.title.querySelector(".headerText");
+          if (ht) ht.removeEventListener('click', onCollapse);
         } 
       }
       else if(this.jsoneditor.options.disable_collapse) {
         this.toggle_button.style.display = 'none';
-        this.title.querySelector(".headerText").removeEventListener('click', onCollapse);
+        ht = this.title.querySelector(".headerText");
+        if (ht) ht.removeEventListener('click', onCollapse);
       }
       // Edit JSON Button
       this.editjson_button = this.getButton('JSON','edit','Edit JSON');

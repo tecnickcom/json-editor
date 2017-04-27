@@ -175,7 +175,7 @@ JSONEditor.defaults.editors.string = JSONEditor.AbstractEditor.extend({
     else {
       this.input_type = 'text';
       var _title =  this.getTitle();
-      if(this.getTitle() === "{{baseTitle}} xxxxxxxx {{ i1 }}"){debugger}
+      //if(this.getTitle() === "{{baseTitle}} xxxxxxxx {{ i1 }}"){debugger}
       if(this.schema.headerTemplate){
         _title = this.compileBaseTemplate(this.schema.headerTemplate);
       }

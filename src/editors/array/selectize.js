@@ -11,6 +11,7 @@ JSONEditor.defaults.editors.arraySelectize = JSONEditor.AbstractEditor.extend({
     }
 
     this.input = document.createElement('select');
+    this.input.setAttribute('data-sonata-select2', 'false');
     this.input.setAttribute('multiple', 'multiple');
 
     var group = this.theme.getFormControl(this.title, this.input, this.description);

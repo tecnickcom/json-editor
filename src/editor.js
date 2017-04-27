@@ -317,6 +317,7 @@ JSONEditor.AbstractEditor = Class.extend({
   },
 
   compileBaseTemplate: function(headerTemplate){
+    var vars;
     var header_template = this.jsoneditor.compileTemplate(headerTemplate, this.template_engine);
     vars = $extend({
       title: this.getTitle(),
