@@ -22,7 +22,7 @@ JSONEditor.defaults.editors.arraySelectize = JSONEditor.AbstractEditor.extend({
     window.jQuery(this.input).selectize({
       delimiter: false,
       createOnBlur: true,
-      create: true
+      create: false
     });
   },
   postBuild: function() {

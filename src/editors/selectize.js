@@ -187,7 +187,7 @@ JSONEditor.defaults.editors.selectize = JSONEditor.AbstractEditor.extend({
       if(this.schema.options && this.schema.options.selectize_options) options = $extend(options,this.schema.options.selectize_options);
       this.selectize = window.jQuery(this.input).selectize($extend(options,
       {
-        create: true,
+        create: false,
         onChange : function() {
           self.onInputChange();
         }
